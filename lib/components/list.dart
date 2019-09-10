@@ -14,6 +14,12 @@ class ListState extends State<ListComp> {
   int count = 0;
   Function onChange = () => {};
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   void counter(type) {
     setState(() {
       switch (type) {
@@ -63,6 +69,16 @@ class ListState extends State<ListComp> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.orangeAccent
+          ),
+          child: Text('ListComp', style: TextStyle(
+            fontSize: 20
+          )),
+        ),
         Row(
           children: <Widget>[
             IconButton(
