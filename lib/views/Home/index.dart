@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title, this.onChange}) : super(key: key);
-
-  final String title;
-  final Function onChange;
+  Home({Key key}) : super(key: key);
 
   @override
   HomeState createState() => HomeState();
@@ -12,7 +9,6 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   int count = 0;
-  Function onChange = () => {};
  
   @override
   void initState() {
@@ -32,8 +28,7 @@ class HomeState extends State<Home> {
           count++; 
       }
     });
-    // print('count: $count');
-    widget.onChange(count);
+    print('count: $count');
   }
 
   void showTitle() {

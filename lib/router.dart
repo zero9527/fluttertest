@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'views/Home/index.dart';
-import 'views/List/index.dart';
+import 'views/ListComp/index.dart';
 import 'views/Detail/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,12 +9,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => Home());
     case '/list':
       return MaterialPageRoute(
-        builder: (context) => List()
+        builder: (context) => ListComp()
       );
     case '/detail':
-      var arguments = settings.arguments;
       return MaterialPageRoute(
-        builder: (context) => Detail(id: arguments)
+        builder: (context) => Detail(params: settings.arguments)
       );
     default:
       return MaterialPageRoute(builder: (context) => Home());

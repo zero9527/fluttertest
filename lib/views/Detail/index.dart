@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertest/api/detail.dart' as DetailApi;
 
 class Detail extends StatefulWidget {
-  Detail({ Key key, this.id }) : super(key: key);
+  Detail({ Key key, this.params }) : super(key: key);
 
-  final id;
+  final params;
 
   @override
   DetailState createState() => DetailState();
@@ -15,9 +16,15 @@ class DetailState extends State<Detail> {
   @override
   void initState() {
     super.initState();
+    getList();
     setState(() {
-      detailTitle = 'Detail_${widget.id}';
+      detailTitle = 'Detail_${widget.params['id']}';
     });
+  }
+
+  void getList() async {
+    var res = await DetailApi.getFile({ 'date': DateTime.now().toString() });
+    print('res: $res');
   }
 
   @override
@@ -31,14 +38,14 @@ class DetailState extends State<Detail> {
           height: 300,
           width: MediaQuery.of(context).size.width*90/100,
           decoration: BoxDecoration(
-            color: Colors.orangeAccent,
             borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: Colors.green[50],
             boxShadow: [
               BoxShadow(
-                offset: Offset(0, 16.0),
-                color: Color.fromRGBO(0, 0, 1, .5),
-                blurRadius: 20.0,
-                spreadRadius: -10.0,
+                offset: Offset(0, 4.0),
+                color: Color.fromRGBO(0, 0, 0, .4),
+                blurRadius: 2.0,
+                spreadRadius: -4.0,
               ),
             ],
           ),
@@ -49,7 +56,7 @@ class DetailState extends State<Detail> {
               Text('呵呵呵', style: TextStyle(
                 fontSize: 20
               ),),
-              Text('detail-id: ${widget.id}', style: TextStyle(
+              Text('detail-id: ${widget.params['id']}', style: TextStyle(
                 fontSize: 20
               ),),
             ],
