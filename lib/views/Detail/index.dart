@@ -17,6 +17,7 @@ class DetailState extends State<Detail> {
   void initState() {
     super.initState();
     getList();
+    uploadFile();
     setState(() {
       detailTitle = 'Detail_${widget.params['id']}';
     });
@@ -24,6 +25,11 @@ class DetailState extends State<Detail> {
 
   void getList() async {
     var res = await DetailApi.getFile({ 'date': DateTime.now().toString() });
+    print('res: $res');
+  }
+
+  void uploadFile() async {
+    var res = await DetailApi.uploadFile({ 'date': DateTime.now().toString() });
     print('res: $res');
   }
 
