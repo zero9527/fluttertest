@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertest/components/alert.dart';
+import 'package:fluttertest/components/counter.dart';
+import 'package:fluttertest/components/menu-popup.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -8,60 +11,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  int count = 0;
- 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void counter(type) {
-    setState(() {
-      switch (type) {
-        case '-':
-          count--;
-          break;
-        case '+':
-          count++;
-          break;
-        default:
-          count++; 
-      }
-    });
-    print('count: $count');
-  }
-
-  void showTitle() {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('标题'), 
-          content: Text('哈哈哈'),
-          actions:<Widget>[
-            FlatButton(
-              child: Text('YES'),
-              onPressed: (){
-                print('yes...');
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text('NO'),
-              onPressed: (){
-                print('no...');
-                Navigator.of(context).pop();
-              },
-            ),
-          ]
-        );
-      });
-  }
-
-  void toList() {
-    Navigator.pushNamed(context, '/list');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,54 +18,67 @@ class HomeState extends State<Home> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('Home Page'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text('Home Page'),
+            MenuPopup(),
+          ],
+        ),
       ),
       body: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              IconButton(
-                onPressed: () => counter('-'),
-                icon: Icon(Icons.remove_circle_outline)
-              ),
-              Container(
-                width: 100,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: Text('$count', style: TextStyle(
-                  fontSize: 30
-                )),
-              ),
-              IconButton(
-                onPressed: () => counter('+'),
-                icon: Icon(Icons.add_circle_outline),
-              ),
-            ],
-          ),
+          Counter(),
           Container(
             padding: EdgeInsets.only(top: 10, bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
-                  onPressed: () => showTitle(),
-                  child: Text('显示Title'),
-                )
+                  onPressed: () => Alert(
+                    context: context,
+                    title: Text('标题1'),
+                    content: Text('内容1'),
+                    confirmText: 'Yes',
+                    cancelText: 'No',
+                    onConfirm: () => print('confirm1'),
+                    onCancel: () => print('oncancel1')
+                  ),
+                  child: Text('显示弹窗1'),
+                ),
+                RaisedButton(
+                  onPressed: () => Alert(
+                    context: context,
+                    // title: Text('标题2'),
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('内容2')
+                      ],
+                    ),
+                    onConfirm: () => print('确定'),
+                    onCancel: () => print('取消')
+                  ),
+                  child: Text('显示弹窗2'),
+                ),
+                
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10),
+            padding: EdgeInsets.only(bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
-                  onPressed: toList,
-                  child: Text('to list'),
+                  color: Color(0xffffffff),
+                  onPressed: () => Navigator.pushNamed(context, '/list'),
+                  child: Text('List'),
                 )
               ],
             ),
           ),
+          
         ],
       )
     );
