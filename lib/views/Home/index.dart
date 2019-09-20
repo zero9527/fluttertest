@@ -70,11 +70,21 @@ class HomeState extends State<Home> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  color: Color(0xffffffff),
-                  onPressed: () => Navigator.pushNamed(context, '/list'),
-                  child: Text('List'),
-                )
+                Column(
+                  children: <Widget>[
+                    RaisedButton(
+                      color: Color(0xffffffff),
+                      onPressed: () => Navigator.pushNamed(context, '/list'),
+                      child: Text('List'),
+                    ),
+                    RaisedButton(
+                      textColor: Colors.white,
+                      color: Colors.blueAccent,
+                      onPressed: () => Navigator.pushNamed(context, '/test-page'),
+                      child: Text('Test Page'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

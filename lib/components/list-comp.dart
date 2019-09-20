@@ -7,14 +7,13 @@ class ListComp extends StatefulWidget {
   final BoxDecoration decoration;
   final List dataList; // 数据
   final bool hasMore; //  还有更多数据
-  final bool skeletonLoading; // 开始时使用骨架屏 loading
   final String loadingText; // 请求时的提示
   final Widget loadingWidget; // 请求时的显示 Widget 
   final String nomoreText; // 没有更多数据的提示
   final Function listItemBuilder; // 每项显示的解构
   final Function itemClick; // 每项点击
   final Function onRefresh; // 下拉刷新
-  final Function onLoadMore; // 上滑加载
+  final Function onLoadMore; // 上拉加载
 
   ListComp({
     Key key,
@@ -22,14 +21,13 @@ class ListComp extends StatefulWidget {
     @required this.hasMore,
     this.page = 1,
     this.decoration,
-    this.margin = const EdgeInsets.all(10),
+    this.margin,
     this.padding = const EdgeInsets.all(10),
-    this.skeletonLoading = false,
     this.loadingText = '拼命加载中...',
     this.loadingWidget,
     this.nomoreText = '----- 我是有底线的 -----',
-    this.listItemBuilder,
     this.itemClick,
+    @required this.listItemBuilder,
     @required this.onRefresh,
     @required this.onLoadMore,
   }) : super(key: key);
@@ -40,25 +38,41 @@ class ListComp extends StatefulWidget {
 
 class ListState extends State<ListComp> {
   List _dataList = [];
+  String listBottomText = '上滑加载更多';
   bool isReachBottom = true; // 是否到达底部
   final ScrollController _scrollController = ScrollController();
 
   ListState() : super() {
-    _scrollController.addListener(() {
-      if (listReachBottom()) {
-        onLoadMore();
-
-      } else {
-        setState(() {
-          isReachBottom = false;
-        });
-      }
-    });
+    _scrollController.addListener(onListScroll);
   }
 
-  // 是否到达底部
-  bool listReachBottom() {
-    return _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
+  // 列表滚动
+  void onListScroll() {
+    // 是否到达底部
+    bool reachBottom = _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
+    if (reachBottom) {
+      setState(() {
+        isReachBottom = true;
+      });
+      onLoadMore();
+    }
+  }
+
+  // 监听一次 build 渲染完成
+  void layoutRenderedListener() {
+    WidgetsBinding.instance.addPostFrameCallback(layoutRenderedCallback);
+  }
+
+  void layoutRenderedCallback(Duration duration) {
+    // 如果列表数据不多，没有滚动条，导致 ListView 不能触发下拉刷新、上滑等手势，
+    // 则继续加载下一页
+    if (_scrollController.position.maxScrollExtent == 0) {
+      onLoadMore();
+    } else {
+      setState(() {
+        isReachBottom = false;
+      });
+    }
   }
 
   void listItemClick(item) {
@@ -76,17 +90,15 @@ class ListState extends State<ListComp> {
     setState(() {
       isReachBottom = true;
     });
+    layoutRenderedListener();
     return widget.onRefresh();
   }
 
   Widget listItem(item, int index) {
     return Container(
       margin: widget.margin,
-      decoration: widget.decoration != null 
-        ? widget.decoration
-        : BoxDecoration(
-          color: Colors.white,
-        ),
+      padding: const EdgeInsets.all(0),
+      decoration: widget.decoration,
       child: FlatButton(
         padding: widget.padding,
         onPressed: () => listItemClick(item),
@@ -123,8 +135,8 @@ class ListState extends State<ListComp> {
             padding: const EdgeInsets.only(left: 10),
             child: widget.hasMore 
               ? (widget.loadingWidget != null 
-                ? isReachBottom ? widget.loadingWidget : greyText('上滑加载更多')
-                : isReachBottom ? greyText(widget.loadingText) : greyText('上滑加载更多'))
+                ? isReachBottom ? widget.loadingWidget : greyText(listBottomText)
+                : isReachBottom ? greyText(widget.loadingText) : greyText(listBottomText))
               : greyText(widget.nomoreText)
           )
         ],
@@ -140,17 +152,8 @@ class ListState extends State<ListComp> {
 
   @override
   void didUpdateWidget(ListComp oldWidget) {
+    layoutRenderedListener();
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.dataList.length != widget.dataList.length) return;
-    Future.delayed(Duration(seconds: 2), () {
-      // 一页数量太少，没有滚动条，导致ListView不能触发上滑
-      if (
-        widget.page == 1
-        && _scrollController.position.maxScrollExtent == 0
-      ) {
-        onLoadMore();
-      }
-    });
   }
 
   @override

@@ -45,8 +45,7 @@ class DetailState extends State<DetailPage> {
           width: MediaQuery.of(context).size.width*90/100,
           child: Card(
             child: FlatButton(
-              onPressed: () => {},
-              color: Colors.green[100],
+              onPressed: () => Navigator.of(context).pop(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

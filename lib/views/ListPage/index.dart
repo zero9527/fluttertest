@@ -54,23 +54,18 @@ class ListState extends State<ListPage> {
 
   Future<void> loadMore() async {
     if (!hasMore) return;
-    setState(() {
-      ++page;
-    });
-    final moreList = [];
-    List.generate(10, (int index) {
-      moreList.add(
-        { 'id': dataList.length+index+1, 'text': 'list item ${dataList.length+index+1}' }
-      );
-    });
 
-    Future.delayed(const Duration(seconds: 1), () {
+    await Future.delayed(const Duration(seconds: 1), () {
+      List moreList = List.generate(10, (int index) => { 
+        'id': dataList.length+index+1, 
+        'text': 'list item ${dataList.length+index+1}' 
+      });
+
       setState(() {
+        if (++page >= 3) hasMore = false;
         dataList.addAll(moreList);
-        if (page >= 3) hasMore = false;
       });
     });
-
   }
 
   void toDetail(item) {
@@ -92,17 +87,17 @@ class ListState extends State<ListPage> {
           children: <Widget>[
             ListComp(
               page: page,
-              margin: const EdgeInsets.all(0),
+              margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue
-                ),
+                color: Colors.amber[100],
+                border: Border(bottom: BorderSide(
+                  color: Colors.blue,
+                  width: 1
+                ))
               ),
-              // padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
               hasMore: hasMore,
               dataList: dataList,
-              skeletonLoading: true,
-              // itemClick: (item) => toDetail(item),
+              itemClick: (item) => toDetail(item),
               onRefresh: onRefresh,
               onLoadMore: loadMore,
               listItemBuilder: (item) => listItemBuilder(item),
