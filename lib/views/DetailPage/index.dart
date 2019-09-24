@@ -12,18 +12,16 @@ class DetailPage extends StatefulWidget {
 
 class DetailState extends State<DetailPage> {
   var detailTitle = '';
-
   @override
   void initState() {
     super.initState();
-    // getList();
-    // uploadFile();
+    
     setState(() {
       detailTitle = 'Detail_${widget.params['id']}';
     });
   }
 
-  Future<void> getList() async {
+  Future<void> getFile() async {
     var res = await DetailApi.getFile({ 'date': DateTime.now().toString() });
     print('res: $res');
   }
@@ -40,26 +38,31 @@ class DetailState extends State<DetailPage> {
         title: Text(detailTitle),
       ),
       body: Center(
-        child: Container(
-          height: 300,
-          width: MediaQuery.of(context).size.width*90/100,
-          child: Card(
-            child: FlatButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('呵呵呵', style: TextStyle(
-                    fontSize: 20
-                  ),),
-                  Text('detail-id: ${widget.params['id']}', style: TextStyle(
-                    fontSize: 20
-                  ),),
-                ],
-              ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 300,
+              width: MediaQuery.of(context).size.width*90/100,
+              child: Card(
+                child: FlatButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('呵呵呵', style: TextStyle(
+                        fontSize: 20
+                      ),),
+                      Text('detail-id: ${widget.params['id']}', style: TextStyle(
+                        fontSize: 20
+                      ),),
+                    ],
+                  ),
+                ),
+              )
             ),
-          )
-        )
+          ],
+        ),
       ),
     );
   }

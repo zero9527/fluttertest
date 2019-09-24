@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertest/components/alert.dart';
 import 'package:fluttertest/components/counter.dart';
 import 'package:fluttertest/components/menu-popup.dart';
+import 'package:fluttertest/components/toast.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -11,6 +12,16 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+
+  void toggleToast() {
+    showDialog<Null>(
+      context: context, //BuildContext对象
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return new Toast();
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,15 +91,26 @@ class HomeState extends State<Home> {
                     RaisedButton(
                       textColor: Colors.white,
                       color: Colors.blueAccent,
-                      onPressed: () => Navigator.pushNamed(context, '/test-page'),
-                      child: Text('Test Page'),
+                      onPressed: () => Navigator.pushNamed(context, '/list-custom'),
+                      child: Text('List Custom'),
+                    ),
+                    RaisedButton(
+                      color: Colors.amberAccent,
+                      onPressed: () => Navigator.pushNamed(context, '/video'),
+                      child: Text('Video'),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          
+          Container(
+            child: RaisedButton(
+              onPressed: toggleToast,
+              color: Colors.greenAccent,
+              child: Text('toggle Toast'),
+            ),
+          ),
         ],
       )
     );

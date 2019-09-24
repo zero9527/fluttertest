@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'views/Home/index.dart';
 import 'views/ListPage/index.dart';
 import 'views/DetailPage/index.dart';
-import 'views/TestPage/index.dart';
+import 'views/List-Custom/index.dart';
+import 'views/Video/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -16,9 +17,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => DetailPage(params: settings.arguments)
       );
-    case '/test-page':
+    case '/list-custom':
       return MaterialPageRoute(
-        builder: (context) => TestPage()
+        builder: (context) => ListCustom()
+      );
+    case '/video':
+      return MaterialPageRoute(
+        builder: (context) => Video()
       );
     default:
       return MaterialPageRoute(builder: (context) => Home());

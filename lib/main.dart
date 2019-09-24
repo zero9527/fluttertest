@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'router.dart';
 import 'views/Home/index.dart';
+import 'dart:io';
+import 'router.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,6 +11,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid) {
+      SystemUiOverlayStyle systemUiOverlayStyle =
+          SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

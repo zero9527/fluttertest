@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
 class ListComp extends StatefulWidget {
-  final int page; // 页码
-  final EdgeInsetsGeometry margin;
-  final EdgeInsetsGeometry padding;
-  final BoxDecoration decoration;
-  final List dataList; // 数据
-  final bool hasMore; //  还有更多数据
-  final String loadingText; // 请求时的提示
-  final Widget loadingWidget; // 请求时的显示 Widget 
-  final String nomoreText; // 没有更多数据的提示
-  final Function listItemBuilder; // 每项显示的解构
-  final Function itemClick; // 每项点击
-  final Function onRefresh; // 下拉刷新
-  final Function onLoadMore; // 上拉加载
-
+  /// 
+  /// ### 基于 ListView.builder 的封装
+  /// 
+  /// * page： 页码
+  /// * margin： listItem 外边距 margin
+  /// * padding： listItem 内边距 padding
+  /// * decoration： listItem decoration
+  /// * dataList： 数据 `@required`
+  /// * hasMore： 还有更多数据 `@required`
+  /// * loadingText： 请求时的提示
+  /// * loadingWidget： 请求时的显示 Widget 
+  /// * listBottomText： 上滑加载更多
+  /// * nomoreText： 没有更多数据的提示
+  /// * itemClick： listItem点击
+  /// * listItemBuilder： listItem显示的结构 `@required`
+  /// * onRefresh：下拉刷新 `@required`
+  /// * onLoadMore： 上拉加载 `@required`
   ListComp({
     Key key,
     @required this.dataList,
@@ -22,9 +25,10 @@ class ListComp extends StatefulWidget {
     this.page = 1,
     this.decoration,
     this.margin,
-    this.padding = const EdgeInsets.all(10),
+    this.padding,
     this.loadingText = '拼命加载中...',
     this.loadingWidget,
+    this.listBottomText = '上滑加载更多',
     this.nomoreText = '----- 我是有底线的 -----',
     this.itemClick,
     @required this.listItemBuilder,
@@ -32,13 +36,41 @@ class ListComp extends StatefulWidget {
     @required this.onLoadMore,
   }) : super(key: key);
 
+  /// 页码
+  final int page;
+  /// listItem 外边距 margin
+  final EdgeInsetsGeometry margin;
+  /// listItem 内边距 margin
+  final EdgeInsetsGeometry padding;
+  /// listItem decoration
+  final BoxDecoration decoration;
+  /// 数据
+  final List dataList;
+  /// 还有更多数据
+  final bool hasMore;
+  /// 请求时的提示
+  final String loadingText; 
+  /// 请求时的显示 Widget 
+  final Widget loadingWidget;
+  /// 上滑加载更多
+  final String listBottomText;
+  /// 没有更多数据的提示
+  final String nomoreText; 
+  /// listItem显示的结构
+  final Function listItemBuilder;
+  /// listItem点击
+  final Function itemClick;
+  /// 下拉刷新
+  final Function onRefresh; 
+  /// 上拉加载
+  final Function onLoadMore; 
+
   @override
   ListState createState() => ListState();
 }
 
 class ListState extends State<ListComp> {
   List _dataList = [];
-  String listBottomText = '上滑加载更多';
   bool isReachBottom = true; // 是否到达底部
   final ScrollController _scrollController = ScrollController();
 
@@ -97,18 +129,20 @@ class ListState extends State<ListComp> {
   Widget listItem(item, int index) {
     return Container(
       margin: widget.margin,
-      padding: const EdgeInsets.all(0),
       decoration: widget.decoration,
-      child: FlatButton(
-        padding: widget.padding,
-        onPressed: () => listItemClick(item),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: widget.listItemBuilder(item),
-            ),
-          ],
-        ),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => listItemClick(item),
+        child: Container(
+          padding: widget.padding,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: widget.listItemBuilder(item),
+              ),
+            ],
+          ),
+        )
       ),
     );
   }
@@ -135,8 +169,8 @@ class ListState extends State<ListComp> {
             padding: const EdgeInsets.only(left: 10),
             child: widget.hasMore 
               ? (widget.loadingWidget != null 
-                ? isReachBottom ? widget.loadingWidget : greyText(listBottomText)
-                : isReachBottom ? greyText(widget.loadingText) : greyText(listBottomText))
+                ? isReachBottom ? widget.loadingWidget : greyText(widget.listBottomText)
+                : isReachBottom ? greyText(widget.loadingText) : greyText(widget.listBottomText))
               : greyText(widget.nomoreText)
           )
         ],
