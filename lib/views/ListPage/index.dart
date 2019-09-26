@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:fluttertest/components/list-comp.dart';
+import 'package:fluttertest/components/List-Comp/index.dart';
 
 abstract class IListItem {
   int id;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertest/components/alert.dart';
 import 'package:fluttertest/components/counter.dart';
 import 'package:fluttertest/components/menu-popup.dart';
-import 'package:fluttertest/components/toast.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -13,14 +12,8 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
 
-  void toggleToast() {
-    showDialog<Null>(
-      context: context, //BuildContext对象
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return new Toast();
-      }
-    );
+  void goto(BuildContext context, String routeName) {
+    Navigator.pushNamed(context, routeName);
   }
 
   @override
@@ -85,18 +78,18 @@ class HomeState extends State<Home> {
                   children: <Widget>[
                     RaisedButton(
                       color: Color(0xffffffff),
-                      onPressed: () => Navigator.pushNamed(context, '/list'),
+                      onPressed: () => goto(context, '/list'),
                       child: Text('List'),
                     ),
                     RaisedButton(
                       textColor: Colors.white,
                       color: Colors.blueAccent,
-                      onPressed: () => Navigator.pushNamed(context, '/list-custom'),
+                      onPressed: () => goto(context, '/list-custom'),
                       child: Text('List Custom'),
                     ),
                     RaisedButton(
                       color: Colors.amberAccent,
-                      onPressed: () => Navigator.pushNamed(context, '/video'),
+                      onPressed: () => goto(context, '/video'),
                       child: Text('Video'),
                     ),
                   ],
@@ -106,9 +99,10 @@ class HomeState extends State<Home> {
           ),
           Container(
             child: RaisedButton(
-              onPressed: toggleToast,
-              color: Colors.greenAccent,
-              child: Text('toggle Toast'),
+              onPressed: () => goto(context, '/toast-test'),
+              color: Colors.redAccent,
+              textColor: Colors.white,
+              child: Text('toast-test'),
             ),
           ),
         ],

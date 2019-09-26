@@ -78,7 +78,7 @@ class ListState extends State<ListComp> {
     _scrollController.addListener(onListScroll);
   }
 
-  // 列表滚动
+  /// 列表滚动
   void onListScroll() {
     // 是否到达底部
     bool reachBottom = _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
@@ -90,7 +90,7 @@ class ListState extends State<ListComp> {
     }
   }
 
-  // 监听一次 build 渲染完成
+  /// 监听一次 build 渲染完成
   void layoutRenderedListener() {
     WidgetsBinding.instance.addPostFrameCallback(layoutRenderedCallback);
   }
@@ -126,7 +126,8 @@ class ListState extends State<ListComp> {
     return widget.onRefresh();
   }
 
-  Widget listItem(item, int index) {
+  /// 构建 ListItem
+  Widget _buildListItem(item, int index) {
     return Container(
       margin: widget.margin,
       decoration: widget.decoration,
@@ -147,7 +148,8 @@ class ListState extends State<ListComp> {
     );
   }
 
-  Widget loadingItem() {
+  /// 构建加载项
+  Widget _buildLoadingItem() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
@@ -210,9 +212,9 @@ class ListState extends State<ListComp> {
             widget.dataList.length == 0 ||
             index == _dataList.length-1
           ) {
-            return loadingItem();
+            return _buildLoadingItem();
           }
-          return listItem(_dataList[index], index);
+          return _buildListItem(_dataList[index], index);
         }
       ),
     );
