@@ -6,12 +6,11 @@ const initialColor = Color(0xdf333333);
 /// Color(0xfff6f6f6)
 const initialTextColor = Color(0xfff6f6f6); 
 
-class Toast {
+class ToToast {
   /// ### Toast 提示小弹窗
   /// 
   /// * context: BuildContext `@required`
   /// * position：'top', 'center', 'bottom'; `default: 'center'`
-  /// * animation：动画
   /// * color：背景颜色，`使用text，而不是child有效`
   /// * textColor：文字颜色，`使用text，而不是child有效`
   /// * autoCloseSeconds：自动关闭时间(秒), `default: 2`
@@ -20,10 +19,9 @@ class Toast {
   /// * text: 文本
   /// * child：内容 Widget
   
-  Toast({ 
+  ToToast({ 
     @required this.context,
     this.position = 'center', 
-    this.animation, 
     this.padding = const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
     this.color = initialColor,
     this.textColor = initialTextColor,
@@ -40,8 +38,6 @@ class Toast {
   final BuildContext context;
   /// position：'top', 'center', 'bottom'; `default: 'center'`
   final String position;
-  /// 出现动画
-  final String animation;
   /// padding
   final EdgeInsetsGeometry padding;
   /// background
@@ -109,7 +105,6 @@ class Toast {
             onTap: toastClick,
             child: BuildToastContent(
               position: this.position, 
-              // animation: this.animation, 
               padding: this.padding,
               color: this.color,
               textColor: this.textColor,
@@ -140,8 +135,7 @@ class Toast {
 class BuildToastContent extends StatefulWidget {
   BuildToastContent({ 
     Key key,
-    this.position, 
-    // this.animation, 
+    this.position,  
     this.padding,
     this.color,
     this.textColor,
@@ -154,8 +148,6 @@ class BuildToastContent extends StatefulWidget {
 
   /// position：'top', 'center', 'bottom'; `default: 'center'`
   final String position;
-  /// 出现动画
-  // final String animation;
   /// padding
   final EdgeInsetsGeometry padding;
   /// background

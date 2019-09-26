@@ -4,7 +4,7 @@ import 'views/ListPage/index.dart';
 import 'views/DetailPage/index.dart';
 import 'views/List-Custom/index.dart';
 import 'views/Video/index.dart';
-import 'package:fluttertest/components/Toast/toast.test.dart';
+import 'package:fluttertest/components/ToToast/toast.test.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

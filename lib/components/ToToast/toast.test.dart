@@ -17,7 +17,7 @@ class ToastTestState extends State<ToastTest> with TickerProviderStateMixin {
   }
 
   void toggleToast({BuildContext context, position, type, autoCloseSeconds = 2, text}) {
-    Toast(
+    ToToast(
       context: context,
       position: position,
       // text: 'Toast Component Toast Component, Toast组件测试测试ing Toast组件测试测试ing',
@@ -70,17 +70,17 @@ class ToastTestState extends State<ToastTest> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: () => toggleToast(context: context, position: 'top', type: Toast.warnning, text: 'Toast Component2'),
+                      onPressed: () => toggleToast(context: context, position: 'top', type: ToToast.warnning, text: 'Toast Component2'),
                       color: Colors.greenAccent,
                       child: Text('toast top'),
                     ),
                     RaisedButton(
-                      onPressed: () => toggleToast(context: context, position: 'center', type: Toast.success, text: 'Toast Component2'),
+                      onPressed: () => toggleToast(context: context, position: 'center', type: ToToast.success, text: 'Toast Component2'),
                       color: Colors.greenAccent,
                       child: Text('toast center'),
                     ),
                     RaisedButton(
-                      onPressed: () => toggleToast(context: context, position: 'bottom', type: Toast.failed, text: 'Toast Component2'),
+                      onPressed: () => toggleToast(context: context, position: 'bottom', type: ToToast.failed, text: 'Toast Component2'),
                       color: Colors.greenAccent,
                       child: Text('toast bottom'),
                     ),
@@ -96,17 +96,17 @@ class ToastTestState extends State<ToastTest> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: () => toggleToast(context: context, position: 'top', type: Toast.warnning, autoCloseSeconds: 0, text: 'Toast Component3'),
+                      onPressed: () => toggleToast(context: context, position: 'top', type: ToToast.warnning, autoCloseSeconds: 0, text: 'Toast Component3'),
                       color: Colors.greenAccent,
                       child: Text('toast top'),
                     ),
                     RaisedButton(
-                      onPressed: () => toggleToast(context: context, position: 'center', type: Toast.success, autoCloseSeconds: 0, text: 'Toast Component3'),
+                      onPressed: () => toggleToast(context: context, position: 'center', type: ToToast.success, autoCloseSeconds: 0, text: 'Toast Component3'),
                       color: Colors.greenAccent,
                       child: Text('toast center'),
                     ),
                     RaisedButton(
-                      onPressed: () => toggleToast(context: context, position: 'bottom', type: Toast.failed, autoCloseSeconds: 0, text: 'Toast Component3'),
+                      onPressed: () => toggleToast(context: context, position: 'bottom', type: ToToast.failed, autoCloseSeconds: 0, text: 'Toast Component3'),
                       color: Colors.greenAccent,
                       child: Text('toast bottom'),
                     ),
