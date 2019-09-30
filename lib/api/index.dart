@@ -9,7 +9,7 @@ class HttpUtil {
   HttpUtil() {
     dio.options.baseUrl = 'http://192.168.0.5:2333';
     dio.options.connectTimeout = 5000;
-    dio.options.receiveTimeout = 5000;
+    // dio.options.receiveTimeout = 5000;
 
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options){

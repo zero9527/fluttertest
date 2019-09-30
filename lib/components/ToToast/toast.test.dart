@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'index.dart';
+import 'package:fluttertest/api/test-api.dart' as TestApi;
 
 class ToastTest extends StatefulWidget {
   ToastTest({ Key key }) : super(key: key);
@@ -13,7 +14,13 @@ class ToastTestState extends State<ToastTest> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    // getFile();
     super.initState();
+  }
+
+  void getFile() async {
+    var res = await TestApi.getFile();
+    // print('res: $res');
   }
 
   void toggleToast({BuildContext context, position, type, autoCloseSeconds = 2, text}) {
@@ -31,6 +38,7 @@ class ToastTestState extends State<ToastTest> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
         title: Text('Toast Test'),
       ),
       body: Container(

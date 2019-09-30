@@ -4,7 +4,12 @@ import 'package:fluttertest/components/counter.dart';
 import 'package:fluttertest/components/menu-popup.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+  Home({
+    Key key,
+    this.sdCardDir,
+  }) : super(key: key);
+
+  final String sdCardDir;
 
   @override
   HomeState createState() => HomeState();
@@ -12,8 +17,8 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
 
-  void goto(BuildContext context, String routeName) {
-    Navigator.pushNamed(context, routeName);
+  void goto(BuildContext context, String routeName, [Map params]) {
+    Navigator.pushNamed(context, routeName, arguments: params);
   }
 
   @override
@@ -100,9 +105,16 @@ class HomeState extends State<Home> {
           Container(
             child: RaisedButton(
               onPressed: () => goto(context, '/toast-test'),
-              color: Colors.redAccent,
-              textColor: Colors.white,
+              color: Colors.greenAccent,
               child: Text('toast-test'),
+            ),
+          ),
+          Container(
+            child: RaisedButton(
+              color: Colors.black,
+              textColor: Colors.white,
+              onPressed: () => goto(context, '/file-manager', { 'sdCardDir': widget.sdCardDir }),
+              child: Text('FileManager'),
             ),
           ),
         ],

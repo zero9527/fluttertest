@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertest/api/detail.dart' as DetailApi;
+import 'package:fluttertest/api/test-api.dart' as TestApi;
 
 class DetailPage extends StatefulWidget {
   DetailPage({ Key key, this.params }) : super(key: key);
@@ -22,12 +22,12 @@ class DetailState extends State<DetailPage> {
   }
 
   Future<void> getFile() async {
-    var res = await DetailApi.getFile({ 'date': DateTime.now().toString() });
+    var res = await TestApi.getFile({ 'date': DateTime.now().toString() });
     print('res: $res');
   }
 
   Future<void> uploadFile() async {
-    var res = await DetailApi.uploadFile({ 'date': DateTime.now().toString() });
+    var res = await TestApi.uploadFile({ 'date': DateTime.now().toString() });
     print('res: $res');
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertest/views/FileManager/index.dart';
 import 'views/Home/index.dart';
 import 'views/ListPage/index.dart';
 import 'views/DetailPage/index.dart';
@@ -29,6 +30,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/toast-test':
       return MaterialPageRoute(
         builder: (BuildContext context) => ToastTest()
+      );
+    case '/file-manager':
+      return MaterialPageRoute(
+        builder: (BuildContext context) => FileManager(params: settings.arguments)
       );
     default:
       return MaterialPageRoute(builder: (context) => Home());

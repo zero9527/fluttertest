@@ -80,7 +80,7 @@ class ToToast {
   static Map failed = {
     'color': Color(0xdfef5350),
     'textColor': Colors.white,
-    'icon': Icons.error_outline
+    'icon': Icons.not_interested
   };
   
   OverlayEntry overlayEntry;

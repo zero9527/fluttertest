@@ -1,12 +1,50 @@
-import 'package:flutter/material.dart';
-import 'views/Home/index.dart';
 import 'dart:io';
-import 'router.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:simple_permissions/simple_permissions.dart';
+import 'package:fluttertest/views/FileManager/index.dart';
+import 'views/Home/index.dart';
+import 'router.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  String sdCardDir;
+  
+  Future<void> getSDCardDir() async {
+    /// path_provider: v1.1.0 之后 getExternalStorageDirectory 获取的就不是SD卡根目录了。。。
+    sdCardDir = (await getExternalStorageDirectory()).path;
+  }
+
+   // Permission check
+  Future<void> getPermission() async {
+    if (Platform.isAndroid) {
+      bool permission1 = await SimplePermissions.checkPermission(Permission.ReadExternalStorage);
+      bool permission2 = await SimplePermissions.checkPermission(Permission.WriteExternalStorage);
+      if (!permission1) {
+        await SimplePermissions.requestPermission(Permission.ReadExternalStorage);
+      }
+      if (!permission2) {
+        await SimplePermissions.requestPermission(Permission.WriteExternalStorage);
+      }
+      await getSDCardDir();
+    } else if (Platform.isIOS) {
+      await getSDCardDir();
+    }
+  }
+
+  Future.wait([getPermission()]).then((_) {
+    runApp(MyApp(sdCardDir: sdCardDir));
+  });
+
+}
 
 class MyApp extends StatelessWidget {
+  MyApp({
+    Key key,
+    this.sdCardDir,
+  }) : super(key: key);
+
+  final String sdCardDir;
 
   // This widget is the root of your application.
   @override
@@ -19,18 +57,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.cyan,
       ),
-      home: Home(),
+      home: Home(sdCardDir: sdCardDir),
       initialRoute: '/', // '/'
       onGenerateRoute: generateRoute,
     );
