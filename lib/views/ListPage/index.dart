@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fluttertest/components/List-Comp/index.dart';
+import 'package:fluttertest/BLoC/global_bloc.dart';
 
 abstract class IListItem {
   int id;
@@ -34,10 +35,10 @@ class ListState extends State<ListPage> {
 
   @override
   void initState() {
-    super.initState();
     Future.delayed(Duration(milliseconds: 100), () {
       loadMore();
     });
+    super.initState();
   }
 
   void onRefresh() async {
@@ -99,6 +100,7 @@ class ListState extends State<ListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('List Page'),
+        backgroundColor: globalBLoC.theme,
       ),
       body: Stack(
         children: <Widget>[

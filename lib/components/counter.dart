@@ -1,54 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertest/BLoC/count_bloc.dart';
 
-class Counter extends StatefulWidget {
+class Counter extends StatelessWidget {
+  /// 使用 BloC 
   Counter({ Key key }) : super(key: key);
-
-  @override
-  CounterState createState() => CounterState();
-}
-
-class CounterState extends State<Counter> {
-  int count = 0;
  
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void counter(type) {
-    setState(() {
-      switch (type) {
-        case '-':
-          count--;
-          break;
-        case '+':
-          count++;
-          break;
-        default:
-          count++; 
-      }
-    });
-    print('count: $count');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
+        Text('  BLoC 测试: '),
         IconButton(
-          onPressed: () => counter('-'),
+          onPressed: () => bloC.decrease(),
           icon: Icon(Icons.remove_circle_outline)
         ),
-        Container(
-          width: 100,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(10),
-          child: Text('$count', style: TextStyle(
-            fontSize: 30
-          )),
+        StreamBuilder(
+          stream: bloC.stream,
+          initialData: bloC.value,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Text('  ${snapshot.data}  ', style: TextStyle(
+              fontSize: 20
+            ),);
+          },
         ),
         IconButton(
-          onPressed: () => counter('+'),
+          onPressed: () => bloC.increment(),
           icon: Icon(Icons.add_circle_outline),
         ),
       ],

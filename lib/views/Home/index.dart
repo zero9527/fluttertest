@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/components/menu-popup.dart';
 import 'package:fluttertest/components/test.dart';
+import 'package:fluttertest/BLoC/global_bloc.dart';
 
 class Home extends StatefulWidget {
   Home({
@@ -20,6 +21,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Row(
@@ -29,6 +31,7 @@ class HomeState extends State<Home> {
             MenuPopup(),
           ],
         ),
+        backgroundColor: globalBLoC.theme,
       ),
       body: Test(),
     );

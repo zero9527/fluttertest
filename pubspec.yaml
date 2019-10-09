@@ -44,6 +44,7 @@ dev_dependencies:
 flutter:
 
   assets:
+    - lib/assets/images/start-screen.jpeg
     - lib/assets/images/2019-09-20_15_12_12.gif
     - lib/assets/video/butterfly.mp4
 

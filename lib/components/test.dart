@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertest/BLoC/global_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -59,10 +61,19 @@ class TestState extends State<Test> {
     launch(url);
   }
 
+  void changeTheme() {
+    globalBLoC.setTheme(
+      globalBLoC.theme == Colors.green
+      ? Colors.blue
+      : Colors.green
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Counter(),
         Counter(),
         Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -143,14 +154,21 @@ class TestState extends State<Test> {
             child: Text('FileManager'),
           ),
         ),
-        RaisedButton(
-          onPressed: _selectFile,
-          child: Text('选择文件'),
-        ),
-        RaisedButton(
-          onPressed: () => lauchUrl('https://flutter.dev'),
-          child: Text('flutter.dev'),
-        ),
+        // RaisedButton(
+        //   onPressed: _selectFile,
+        //   child: Text('选择图片'),
+        // ),
+        // RaisedButton(
+        //   onPressed: () => lauchUrl('https://flutter.dev'),
+        //   child: Text('https://flutter.dev'),
+        //   color: Colors.white,
+        // ),
+        // RaisedButton(
+        //   onPressed: changeTheme,
+        //   child: Text('设置主题颜色为：${globalBLoC.theme == Colors.green
+        //     ? "Colors.blue"
+        //     : "Colors.green"}'),
+        // ),
       ],
     );
   }
