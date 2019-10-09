@@ -15,7 +15,7 @@ class ToToast {
   /// * textColor：文字颜色，`使用text，而不是child有效`
   /// * autoCloseSeconds：自动关闭时间(秒), `default: 2`
   /// * borderRadius：圆角
-  /// * type：类型样式：Toast.success, Toast.warning, Toast.failed 
+  /// * type：类型样式：ToToast.success, ToToast.warning, ToToast.failed 
   /// * text: 文本
   /// * child：内容 Widget
   
@@ -46,7 +46,7 @@ class ToToast {
   final Color textColor;
   /// autoCloseSeconds: 自动关闭时间(秒)
   final int autoCloseSeconds;
-  /// type: 类型样式：Toast.success, Toast.warning, Toast.failed, 或自定义格式：
+  /// type: 类型样式：ToToast.success, ToToast.warning, ToToast.failed, 或自定义格式：
   /// ```
   /// static Map<String, dynamic> success = {
   ///  'color': Color(0xdf66bb61),
@@ -156,7 +156,7 @@ class BuildToastContent extends StatefulWidget {
   final Color textColor;
   /// autoCloseSeconds: 自动关闭时间(秒)
   final int autoCloseSeconds;
-  /// type: 类型样式：Toast.success, Toast.warning, Toast.failed 
+  /// type: 类型样式：ToToast.success, ToToast.warning, ToToast.failed 
   final Map type;
   /// 圆角
   final double borderRadius;

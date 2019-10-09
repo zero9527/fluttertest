@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FileManager extends StatefulWidget {
   /// File Manager
@@ -27,7 +28,7 @@ class FileManagerState extends State<FileManager> {
   List fileList = [];
   bool shouldExit = false;
 
-  // MethodChannel _channel = MethodChannel('openFileChannel');
+  MethodChannel _channel = MethodChannel('openFileChannel');
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class FileManagerState extends State<FileManager> {
     Navigator.of(context).pop();
   }
 
+  /// 设置当前路径下的文件
   void setFileListByDir(String dir) {
     List sdDir = Directory(dir).listSync();
     List list = [];
@@ -69,6 +71,13 @@ class FileManagerState extends State<FileManager> {
       fileList.clear();
       fileList = list.toList();
     });
+  }
+
+  void openFile(String path) {
+    final Map<String, dynamic> args = {
+      'path': path
+    };
+    _channel.invokeMethod('openFile', args);
   }
 
   bool isDirectory(path) {

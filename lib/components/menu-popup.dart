@@ -30,6 +30,7 @@ class MenuPopupState extends State<MenuPopup> {
         // This menu button widget updates a _selection field (of type WhyFarther,
         // not shown here).
         PopupMenuButton<String>(
+          offset: Offset(0, 100),
           onSelected: (String result) => onSelected(result),
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
             const PopupMenuItem(
