@@ -19,21 +19,27 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text('Home Page'),
-            MenuPopup(),
-          ],
-        ),
-        backgroundColor: globalBLoC.theme,
-      ),
-      body: Test(),
+    return StreamBuilder(
+      stream: globalBLoC.stream,
+      initialData: globalBLoC.themeColor,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            // Here we take the value from the MyHomePage object that was created by
+            // the App.build method, and use it to set our appbar title.
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('Home Page'),
+                MenuPopup(),
+              ],
+            ),
+            backgroundColor: globalBLoC.themeColor, // snapshot.data,
+          ),
+          body: Test(),
+        );
+      },
     );
   }
 }

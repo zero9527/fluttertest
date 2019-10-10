@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/BLoC/count_bloc.dart';
+import 'package:fluttertest/BLoC/global_bloc.dart';
 
 class Counter extends StatelessWidget {
-  /// 使用 BloC 
   Counter({ Key key }) : super(key: key);
+
+  void decrease() {
+    countBLoC.decrease();
+    globalBLoC.setIsLogin(!globalBLoC.isLogin);
+  }
+
+  void increment() {
+    countBLoC.increment();
+    globalBLoC.setIsLogin(!globalBLoC.isLogin);
+  }
  
   @override
   Widget build(BuildContext context) {
@@ -11,20 +21,20 @@ class Counter extends StatelessWidget {
       children: <Widget>[
         Text('  BLoC 测试: '),
         IconButton(
-          onPressed: () => bloC.decrease(),
+          onPressed: decrease,
           icon: Icon(Icons.remove_circle_outline)
         ),
         StreamBuilder(
-          stream: bloC.stream,
-          initialData: bloC.value,
+          stream: countBLoC.stream,
+          initialData: countBLoC.count,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Text('  ${snapshot.data}  ', style: TextStyle(
+            return Text('  ${countBLoC.count}  ', style: TextStyle(
               fontSize: 20
             ),);
           },
         ),
         IconButton(
-          onPressed: () => bloC.increment(),
+          onPressed: increment,
           icon: Icon(Icons.add_circle_outline),
         ),
       ],

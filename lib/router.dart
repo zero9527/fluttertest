@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'views/StartScreen/index.dart';
 import 'views/Home/index.dart';
 import 'views/ListPage/index.dart';
 import 'views/DetailPage/index.dart';
@@ -11,8 +10,6 @@ import 'package:fluttertest/components/ToToast/toast.test.dart';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (context) => StartScreen());
-    case '/home':
       return MaterialPageRoute(builder: (context) => Home());
     case '/list':
       return MaterialPageRoute(

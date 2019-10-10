@@ -100,7 +100,7 @@ class ListState extends State<ListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('List Page'),
-        backgroundColor: globalBLoC.theme,
+        backgroundColor: globalBLoC.themeColor,
       ),
       body: Stack(
         children: <Widget>[

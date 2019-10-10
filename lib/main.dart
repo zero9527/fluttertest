@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'views/Home/index.dart';
+import 'views/StartScreen/index.dart';
 import 'router.dart';
 
 void main() {
@@ -11,6 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({ Key key }) : super(key: key) {
 
+    // 沉浸式状态栏
     if (Platform.isAndroid) {
       SystemUiOverlayStyle systemUiOverlayStyle =
           SystemUiOverlayStyle(statusBarColor: Colors.transparent);
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   // primarySwatch: Colors.blue,
       // ),
-      // home: StartScreen(),
+      home: StartScreen(), // Home()
       initialRoute: '/',
       onGenerateRoute: generateRoute,
     );

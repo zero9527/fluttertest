@@ -1,27 +1,35 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-// import 'dart:async';
 
 class GlobalBLoC {
+  bool _isLogin;
   Color _themeColor;
-  // StreamController _globalController;
+  Color _themeTextColor;
+  StreamController _globalController;
 
   GlobalBLoC() {
+    _isLogin = false;
     _themeColor = Colors.blue;
+    _globalController = StreamController.broadcast();
   }
 
-  Color get theme => _themeColor;
-  // StreamController get stream => _globalController;
+  bool get isLogin => _isLogin;
+  Color get themeColor => _themeColor;
+  Color get themeTextColor => _themeTextColor;
+  Stream get stream => _globalController.stream;
 
-  setTheme(Color color) {
-    _themeColor = color;
-    // _globalController.sink.add((){
-    //   _themeColor = color;
-    // });
+  void setIsLogin(bool isLogin) {
+    _globalController.sink.add(_isLogin = isLogin);
   }
 
-  // dispose() {
-  //   _globalController.close();
-  // }
+  void setTheme({@required Color themeColor, Color themeTextColor = Colors.white}) {
+    _globalController.sink.add(_themeColor = themeColor);
+    _globalController.sink.add(_themeTextColor = themeTextColor);
+  }
+
+  dispose() {
+    _globalController.close();
+  }
 }
 
 GlobalBLoC globalBLoC = GlobalBLoC();

@@ -61,17 +61,13 @@ class TestState extends State<Test> {
     launch(url);
   }
 
-  void changeTheme() {
-    globalBLoC.setTheme(
-      globalBLoC.theme == Colors.green
-      ? Colors.blue
-      : Colors.green
-    );
+  void changeTheme(Color color) {
+    globalBLoC.setTheme(themeColor: color);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: <Widget>[
         Counter(),
         Counter(),
@@ -163,12 +159,38 @@ class TestState extends State<Test> {
         //   child: Text('https://flutter.dev'),
         //   color: Colors.white,
         // ),
-        // RaisedButton(
-        //   onPressed: changeTheme,
-        //   child: Text('设置主题颜色为：${globalBLoC.theme == Colors.green
-        //     ? "Colors.blue"
-        //     : "Colors.green"}'),
-        // ),
+        StreamBuilder(
+          stream: globalBLoC.stream,
+          initialData: globalBLoC.themeColor,
+          builder: (ctx, snapshot) {
+            return Text('当前主题颜色为：${globalBLoC.themeColor == Colors.green
+              ? "Colors.blue"
+              : "Colors.green"}', style: TextStyle(
+                color: globalBLoC.themeColor
+              ),);
+          },
+        ),
+        Column(
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () => changeTheme(Colors.blue),
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Text('设置主题颜色为：Colors.blue'),
+            ),
+            RaisedButton(
+              onPressed: () => changeTheme(Colors.green),
+              color: Colors.green,
+              textColor: Colors.white,
+              child: Text('设置主题颜色为：Colors.green'),
+            ),
+            TextField(
+              decoration: new InputDecoration(
+                hintText: 'Type something',
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

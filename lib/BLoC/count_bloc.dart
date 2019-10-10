@@ -11,7 +11,7 @@ class CountBloC {
   }
 
   Stream<int> get stream => _countController.stream;
-  int get value => _count;
+  int get count => _count;
 
   /// _count++
   increment() {
@@ -29,4 +29,4 @@ class CountBloC {
   }
 }
 
-CountBloC bloC = CountBloC();
+CountBloC countBLoC = CountBloC();
