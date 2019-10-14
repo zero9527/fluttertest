@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class GlobalBLoC {
   bool _isLogin;
-  Color _themeColor;
-  Color _themeTextColor;
+  Color _themeColor; // 状态栏背景色
+  Color _themeTextColor; // 状态栏文本色
   StreamController _globalController;
 
   GlobalBLoC() {

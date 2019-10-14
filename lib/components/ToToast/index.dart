@@ -5,6 +5,8 @@ import 'dart:async';
 const initialColor = Color(0xdf333333); 
 /// Color(0xfff6f6f6)
 const initialTextColor = Color(0xfff6f6f6); 
+/// Color(0x66000000)
+const initialCoverScreenColor = Color(0x66000000);
 
 class ToToast {
   /// ### Toast 提示小弹窗
@@ -18,6 +20,8 @@ class ToToast {
   /// * type：类型样式：ToToast.success, ToToast.warning, ToToast.failed 
   /// * text: 文本
   /// * child：内容 Widget
+  /// * coverScreen： true: 覆盖全屏，除提示框外，不可点击; `default: false`
+  /// * useCloseHandler: true: 调用 toastCloseHandler 方式关闭; `default: false`
   
   ToToast({ 
     @required this.context,
@@ -30,6 +34,9 @@ class ToToast {
     this.type,
     this.text,
     this.child,
+    this.coverScreen = false,
+    this.coverScreenColor = initialCoverScreenColor,
+    this.useCloseHandler = false
   }) {
     _build(this.context);
   }
@@ -61,6 +68,16 @@ class ToToast {
   final String text;
   /// child
   final Widget child;
+  /// 覆盖全屏，除提示框外，不可点击
+  final bool coverScreen;
+  /// 覆盖全屏的背景色
+  final Color coverScreenColor;
+  /// 调用 toastCloseHandler 方式关闭
+  /// ```
+  /// var toast = ToToast(...);
+  /// toast.toastCloseHandler();
+  /// ```
+  final bool useCloseHandler;
 
   /// type: 类型样式: success
   static Map<String, dynamic> success = {
@@ -87,12 +104,12 @@ class ToToast {
   Timer autoCloseTimer;
 
   void _build(BuildContext context) {
+    var screen = MediaQuery.of(context).size;
     // 自动关闭
-    if (this.autoCloseSeconds != 0) {
+    if (this.autoCloseSeconds != 0 && !useCloseHandler) {
       if (autoCloseTimer != null) autoCloseTimer.cancel(); 
       autoCloseTimer = Timer(Duration(seconds: this.autoCloseSeconds), () {
-        overlayEntry.remove();
-        overlayEntry = null;
+        toastCloseHandler();
       });
     }
     
@@ -100,22 +117,34 @@ class ToToast {
 
     if (overlayEntry == null) {
       overlayEntry = OverlayEntry(
-        builder: (BuildContext context) => SafeArea(
-          child: GestureDetector(
-            onTap: toastClick,
-            child: BuildToastContent(
-              position: this.position, 
-              padding: this.padding,
-              color: this.color,
-              textColor: this.textColor,
-              autoCloseSeconds: this.autoCloseSeconds,
-              borderRadius: this.borderRadius,
-              type: this.type,
-              text: this.text,
-              child: this.child,
+        builder: (BuildContext context) => Stack(
+          children: <Widget>[
+            this.coverScreen
+            ?  Container(
+                width: screen.width,
+                height: screen.height,
+                color: this.coverScreenColor,
+              )
+            : Container(
+              width: 0,
+              height: 0,
             ),
-          ),
-        )
+            GestureDetector(
+              onTap: toastClick,
+              child: BuildToastContent(
+                position: this.position, 
+                padding: this.padding,
+                color: this.color,
+                textColor: this.textColor,
+                autoCloseSeconds: this.autoCloseSeconds,
+                borderRadius: this.borderRadius,
+                type: this.type,
+                text: this.text,
+                child: this.child,
+              ),
+            ),
+          ],
+        ),
       );
 
       overlaystate.insert(overlayEntry);
@@ -124,11 +153,15 @@ class ToToast {
     }
   }
 
+  /// 点击
   void toastClick() {
-    if (this.autoCloseSeconds == 0) {
-      overlayEntry.remove();
-      overlayEntry = null;
-    }
+    if (this.autoCloseSeconds == 0) toastCloseHandler();
+  }
+
+  /// 关闭
+  void toastCloseHandler() {
+    overlayEntry?.remove();
+    overlayEntry = null;
   }
 }
 

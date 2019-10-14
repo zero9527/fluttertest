@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertest/BLoC/count_bloc.dart';
-import 'package:fluttertest/BLoC/global_bloc.dart';
 
 class Counter extends StatelessWidget {
   Counter({ Key key }) : super(key: key);
 
   void decrease() {
     countBLoC.decrease();
-    globalBLoC.setIsLogin(!globalBLoC.isLogin);
   }
 
   void increment() {
     countBLoC.increment();
-    globalBLoC.setIsLogin(!globalBLoC.isLogin);
   }
  
   @override

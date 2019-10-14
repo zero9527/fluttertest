@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../utils/index.dart' show logUtil;
+import 'package:fluttertest/components/ToToast/index.dart';
 
 Dio dio = new Dio();
 
@@ -102,6 +103,7 @@ class HttpUtil {
   }
 
   void logPrint({ e, apiUrl, method }) {
+    // ToToast(context: null, text: '请求出错');
     print('[$apiUrl], [$method], $e');
   }
 }

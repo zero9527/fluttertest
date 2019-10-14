@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertest/components/alert.dart';
 import 'package:fluttertest/components/counter.dart';
+import 'package:fluttertest/components/app-update.dart';
 
 class Test extends StatefulWidget {
   Test({ Key key }) : super(key: key);
@@ -17,8 +18,9 @@ class Test extends StatefulWidget {
 }
 
 class TestState extends State<Test> {
-  TestState() : super();
   String sdCardDir;
+
+  TestState() : super();
 
   @override
   void initState() {
@@ -65,14 +67,25 @@ class TestState extends State<Test> {
     globalBLoC.setTheme(themeColor: color);
   }
 
+  void inputChange(val) {
+    print('input: $val');
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget comp({@required Widget child}) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          child
+        ],
+      );
+    }
     return ListView(
       children: <Widget>[
         Counter(),
         Counter(),
-        Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10),
+        comp(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -107,42 +120,36 @@ class TestState extends State<Test> {
             ],
           ),
         ),
-        Container(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        comp(
+          child: Column(
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  RaisedButton(
-                    color: Color(0xffffffff),
-                    onPressed: () => goto(context, '/list'),
-                    child: Text('List'),
-                  ),
-                  RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.blueAccent,
-                    onPressed: () => goto(context, '/list-custom'),
-                    child: Text('List Custom'),
-                  ),
-                  RaisedButton(
-                    color: Colors.amberAccent,
-                    onPressed: () => goto(context, '/video'),
-                    child: Text('Video'),
-                  ),
-                ],
+              RaisedButton(
+                color: Color(0xffffffff),
+                onPressed: () => goto(context, '/list'),
+                child: Text('List'),
+              ),
+              RaisedButton(
+                textColor: Colors.white,
+                color: Colors.blueAccent,
+                onPressed: () => goto(context, '/list-custom'),
+                child: Text('List Custom'),
+              ),
+              RaisedButton(
+                color: Colors.amberAccent,
+                onPressed: () => goto(context, '/video'),
+                child: Text('Video'),
               ),
             ],
           ),
         ),
-        Container(
+        comp(
           child: RaisedButton(
             onPressed: () => goto(context, '/toast-test'),
             color: Colors.greenAccent,
             child: Text('toast-test'),
           ),
         ),
-        Container(
+        comp(
           child: RaisedButton(
             color: Colors.black,
             textColor: Colors.white,
@@ -185,12 +192,17 @@ class TestState extends State<Test> {
               child: Text('设置主题颜色为：Colors.green'),
             ),
             TextField(
+              onChanged: (val) => inputChange(val),
+              keyboardType: TextInputType.multiline,
               decoration: new InputDecoration(
-                hintText: 'Type something',
+                fillColor: Colors.blue,
+                labelText: '用户名',
+                icon: Icon(Icons.person)
               ),
             ),
           ],
         ),
+        AppInfo()
       ],
     );
   }
